@@ -6,7 +6,9 @@ import ArticleController from './controllers/article'
 import CategoryController from './controllers/category'
 import WeekController from './controllers/week'
 
-const router = new Router();
+const router = new Router({
+  prefix: '/api'
+});
 
 // auth 相关的路由
 router.post('/auth/login', AuthController.login);

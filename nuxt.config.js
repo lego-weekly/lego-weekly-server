@@ -1,3 +1,5 @@
+require('dotenv').config({ path: '.env' })
+console.log(process.env.NODE_ENV)
 export default {
   /*
    ** Nuxt rendering mode
@@ -18,6 +20,7 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'keywords', name: 'keywords', content: '前端小报' },
       {
         hid: 'description',
         name: 'description',
@@ -34,7 +37,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['@/plugins/antd-ui', '@/plugins/axios'],
+  plugins: ['@/plugins/antd-ui', '~/plugins/axios'],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -50,7 +53,16 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: [],
+  modules: [
+    '@nuxtjs/axios',
+    [
+      '@nuxtjs/dotenv',
+      {
+        filename:
+          process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev',
+      },
+    ],
+  ],
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
@@ -58,7 +70,8 @@ export default {
   build: {
     vendor: ['ant-design-vue', 'axios'],
   },
-  env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3100',
+  server: {
+    port: 8000,
+    host: '127.0.0.1',
   },
 }

@@ -5,10 +5,10 @@ export class Article {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({charset: 'utf8mb4'})
   title: string;
 
-  @Column()
+  @Column({charset: 'utf8mb4'})
   description: string;
 
   @Column()
@@ -23,6 +23,6 @@ export class Article {
   @CreateDateColumn()
   createdTime: Date;
 
-  @Column()
-  week: number;
+  @Column({ nullable: true })
+  weekId: number;
 }

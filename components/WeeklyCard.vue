@@ -1,15 +1,8 @@
 <template>
   <div class="weekly-card" @click="goToDetail">
     <a-card hoverable>
-      <img
-        slot="cover"
-        alt="example"
-        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-      />
-      <a-card-meta
-        :title="weeklyTitle"
-        description="This is the description"
-      ></a-card-meta>
+      <img slot="cover" class="weekly-card-image" alt="" :src="source.image" />
+      <a-card-meta :title="weeklyTitle" description></a-card-meta>
     </a-card>
   </div>
 </template>
@@ -43,3 +36,10 @@ export default {
   },
 }
 </script>
+
+<style>
+.weekly-card-image {
+  width: 100%;
+  height: 200px;
+}
+</style>

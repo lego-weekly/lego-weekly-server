@@ -1,19 +1,27 @@
-import {Entity, Column, PrimaryGeneratedColumn, CreateDateColumn} from 'typeorm'
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm'
 
 @Entity()
 export class Week {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
+
+  @Column({charset: 'utf8mb4'})
+  title: string
 
   @Column()
-  title: string;
+  week: number
 
   @Column()
-  week: number;
+  image: string
 
-  @Column()
-  count: number;
+  @Column({ type: 'simple-array'})
+  articleIds: number[];
 
   @CreateDateColumn()
-  createdTime: Date;
+  createdTime: Date
 }

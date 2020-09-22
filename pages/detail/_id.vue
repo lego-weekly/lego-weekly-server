@@ -5,58 +5,51 @@
       <a-list item-layout="horizontal" :data-source="articleList">
         <a-list-item slot="renderItem" slot-scope="item">
           <a-list-item-meta :description="item.description">
-            <a slot="title" :href="item.link"> {{ item.title }}</a>
+            <a slot="title" :href="item.link">{{ item.title }}</a>
           </a-list-item-meta>
         </a-list-item>
       </a-list>
     </a-layout-content>
     <a-layout-sider :width="340" class="asider-section">
-      <WeeklyCollection :weekly-list="weeklyList" />
+      <WeeklyCollection :weekly-list="weekList" />
       <TagCollection :tag-list="tagList" @tagClick="handleTagClick" />
     </a-layout-sider>
   </a-layout>
 </template>
 
 <script>
-import api from '@/data/api.js'
-
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'Detail',
-  async asyncData({ params }) {
-    const resData = await api.getArticleList({ week: params.id })
-    return { articleList: resData }
+  asyncData({ store, params }) {
+    return store.dispatch('fetchArticle', { week: params.id })
   },
   data() {
     return {
-      weeklyList: [
-        {
-          id: '23',
-          title: '',
-          week: '1',
-          count: '1',
-        },
-        {
-          id: '23',
-          title: '',
-          week: '1',
-          count: '1',
-        },
-      ],
+      weeklyList: [],
       tagList: [],
     }
   },
+  computed: {
+    ...mapState({
+      articleList: (state) => state.articleList,
+      weekList: (state) => state.weekList,
+    }),
+  },
   mounted() {
     this.getTagList()
+    if (!(this.weekList && this.weekList.length)) {
+      this.getPostWeeks()
+    }
   },
   methods: {
+    ...mapActions({
+      getPostWeeks: 'fetchWeekList',
+    }),
     handleTagClick(tag) {},
-    async getPostWeeks() {
-      const resData = await api.getWeekList()
-      this.weeklyList = resData
-    },
     async getTagList() {
-      const resData = await api.getTagList()
-      this.tagList = resData ? resData.filter((it) => !!it.parentId) : []
+      const resData = await this.$axios.$post(`/categories/list`)
+      this.tagList = resData
     },
   },
 }
