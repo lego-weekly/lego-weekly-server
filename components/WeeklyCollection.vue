@@ -4,7 +4,7 @@
     <div class="weekly-list">
       <ul>
         <li v-for="weekly in weeklyList" :key="weekly.id">
-          <nuxt-link :to="/detail/ + weekly.id">{{
+          <nuxt-link :to="/detail/ + weekly.id" target="_blank">{{
             getTitle(weekly)
           }}</nuxt-link>
         </li>

@@ -12,7 +12,7 @@ export class Categories {
   description: string;
 
   @Column({ nullable: true })
-  link: String;
+  link: string;
 
   @Column({ nullable: true })
   parentId: number;

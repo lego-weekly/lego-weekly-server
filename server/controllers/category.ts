@@ -7,7 +7,6 @@ export default class CategoryController {
   public static async listCategories(ctx: Context) {
     const categoriesRepository = getManager().getRepository(Categories);
     const categories = await categoriesRepository.find();
-    console.log('categories', typeof categories);
     ctx.status = 200;
     ctx.body = categories;
   }

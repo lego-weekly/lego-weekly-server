@@ -35,6 +35,7 @@ export const actions = {
   },
   async fetchArticle({ commit }, params) {
     // this.$axios.$post()
+    console.log(`req params`, params)
     const resData = await this.$axios.$post(`/article/list`, {
       ...params,
     })

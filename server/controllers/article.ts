@@ -2,15 +2,22 @@ import {Context} from 'koa'
 import { getManager } from 'typeorm';
 
 import { Article } from '../entity/article';
+import { Categories } from '../entity/categories';
 
 export default class ArticleController {
   public static async listArticles(ctx: Context) {
     const articleRepository = getManager().getRepository(Article);
-    const {week, tag} = ctx.request.body
-    console.log('请求参数', ctx.request.body)
-    const query = week ? {weekId: week} : (tag ? {tag} : {})
+    const categoriesRepository = getManager().getRepository(Categories);
+    let {id, type} = ctx.request.body
+    let query = {}
+    if (type === 'tag') {
+      let tagList = await categoriesRepository.find({ name: id });
+      const tagItem = tagList.filter(item => !!item.parentId)
+      query = tagItem && {tag: tagItem[0].id}
+    } else {
+      query = {weekId: +id}
+    }
     const articles = await articleRepository.find(query);
-    console.log('articles', articles.length);
     ctx.status = 200;
     ctx.body = articles;
   }
@@ -18,7 +25,6 @@ export default class ArticleController {
   public static async addArticle(ctx: Context) {
     const articleRepository = getManager().getRepository(Article);
     const newArticle = new Article();
-    console.log('111', ctx.request.body);
     newArticle.title = ctx.request.body.title;
     newArticle.description = ctx.request.body.description;
     newArticle.link = ctx.request.body.link;

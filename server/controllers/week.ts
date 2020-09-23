@@ -21,11 +21,10 @@ export default class WeekController {
         id: item.id,
         week: item.week,
         title: item.title,
-        image: `http://localhost:3000/images/${item.image}`
+        image: `http://localhost:3000/images/${item.image}`,
+        createdTime: format(item.createdTime, 'yyyy-MM-dd'),
       }
     }).sort((a, b) => b.week -a.week)
-    console.log('weekList', weekList.length);
-    
     ctx.status = 200
     ctx.body = weekList
   }
@@ -53,7 +52,6 @@ export default class WeekController {
     const newArticle = article && article.map(item => {
       return {...item, weekId: newWeek.id}
     })
-    console.log(`newArticle`, newArticle)
     await articleRepository.save(newArticle)
     await downloadImg({}, path.resolve(process.cwd(), `./static/images/${newWeek.image}`))
     const postWeek = {

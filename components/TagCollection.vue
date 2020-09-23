@@ -7,9 +7,11 @@
         :key="tag.id"
         class="tag-item"
         color="#108ee9"
-        @click="onTagClick(tag)"
-        >{{ tag.name }}</a-tag
       >
+        <nuxt-link :to="/detail/ + tag.name" target="_blank">{{
+          tag.name
+        }}</nuxt-link>
+      </a-tag>
     </div>
   </div>
 </template>
