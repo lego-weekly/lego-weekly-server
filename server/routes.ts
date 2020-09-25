@@ -6,30 +6,34 @@ import ArticleController from './controllers/article'
 import CategoryController from './controllers/category'
 import WeekController from './controllers/week'
 
-const router = new Router({
+const unprotectedRouter = new Router({
   prefix: '/api'
 });
 
 // auth 相关的路由
-router.post('/auth/login', AuthController.login);
-router.post('/auth/register', AuthController.register);
+unprotectedRouter.post('/auth/login', AuthController.login);
+unprotectedRouter.post('/auth/register', AuthController.register);
 
+
+const protectedRouter = new Router({
+  prefix: '/api'
+});
 // users 相关的路由
-router.post('/user/list', UserController.listUsers);
-router.get('/users/:id', UserController.showUserDetail);
-router.put('/users/:id', UserController.updateUser);
-router.delete('/users/:id', UserController.deleteUser);
+protectedRouter.post('/user/list', UserController.listUsers);
+protectedRouter.get('/users/:id', UserController.showUserDetail);
+protectedRouter.put('/users/:id', UserController.updateUser);
+protectedRouter.delete('/users/:id', UserController.deleteUser);
 
 // article 相关路由
-router.post('/article/add', ArticleController.addArticle);
-router.post('/article/list', ArticleController.listArticles);
+protectedRouter.post('/article/add', ArticleController.addArticle);
+protectedRouter.post('/article/list', ArticleController.listArticles);
 
 // categories 相关路由
-router.post('/categories/add', CategoryController.addCategory)
-router.post('/categories/list', CategoryController.listCategories)
+protectedRouter.post('/categories/add', CategoryController.addCategory)
+protectedRouter.post('/categories/list', CategoryController.listCategories)
 
 // week 相关路由
-router.post('/weeks/list', WeekController.listWeeks)
-router.post('/weeks/add', WeekController.addWeek)
+protectedRouter.post('/weeks/list', WeekController.listWeeks)
+protectedRouter.post('/weeks/add', WeekController.addWeek)
 
-export default router;
+export { protectedRouter, unprotectedRouter };

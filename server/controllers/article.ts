@@ -1,5 +1,6 @@
 import {Context} from 'koa'
 import { getManager } from 'typeorm';
+import jwtDecode from 'jwt-decode'
 
 import { Article } from '../entity/article';
 import { Categories } from '../entity/categories';
@@ -23,13 +24,14 @@ export default class ArticleController {
   }
 
   public static async addArticle(ctx: Context) {
+    const token:any = jwtDecode(ctx.request.headers.authorization)
     const articleRepository = getManager().getRepository(Article);
     const newArticle = new Article();
     newArticle.title = ctx.request.body.title;
     newArticle.description = ctx.request.body.description;
     newArticle.link = ctx.request.body.link;
     newArticle.tag = ctx.request.body.tag;
-    newArticle.user = ctx.request.body.user;
+    newArticle.user = token.id;
 
     // 保存到数据库
     const article = await articleRepository.save(newArticle);
@@ -38,6 +40,6 @@ export default class ArticleController {
   }
 
   public static async updateArticle(ctx: Context) {
-    
+
   }
 }
