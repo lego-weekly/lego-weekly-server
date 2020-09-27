@@ -25,8 +25,8 @@ async function main(weekItem: Week) {
   })
 
   let message = {
-    from: '"Glab Fe Weekly',
-    to: 'glab-fe@cloudglab.com',
+    from: '"Fe Weekly',
+    // to: '', // to 每个人的个人邮箱
     subject: `每周精选丨Fe Weekly 前端小报第 ${weekItem.week}期 `,
     html: genEmailHtml(weekItem),
   }
@@ -75,13 +75,13 @@ function genEmailHtml (weekItem: Week) {
       font-weight: bold;
       text-decoration: none;
       font-size: 18px;
-      
+
     }
     .qmbox .article-title:hover{
       color: #1890ff
     }
     </style>
-  
+
     <table width="944px" style="margin: 0 auto">
       <tbody>
       <tr style="width: 100%;height: 100px;">
@@ -120,7 +120,7 @@ function genEmailHtml (weekItem: Week) {
           <td>
             <p style="color: #A4A4A4;padding: 0; text-align: center;height: 96px;line-height: 96px;">
               copyright© Lego Weekly
-              <span style="border-bottom:1px dashed #ccc;z-index:1" onclick="return false;" data="2020-2020">2020-2020</span> 
+              <span style="border-bottom:1px dashed #ccc;z-index:1" onclick="return false;" data="2020-2020">2020-2020</span>
               All Right Reserved</p>
           </td>
         </tr>
