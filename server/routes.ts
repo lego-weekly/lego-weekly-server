@@ -11,6 +11,7 @@ const unprotectedRouter = new Router({
 });
 
 // auth 相关的路由
+unprotectedRouter.post('/auth/validate', AuthController.validate)
 unprotectedRouter.post('/auth/login', AuthController.login);
 unprotectedRouter.post('/auth/register', AuthController.register);
 

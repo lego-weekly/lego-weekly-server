@@ -5,9 +5,10 @@ const path = require('path')
 const postMessage = require('../utils/postEmail')
 const downloadImg = require('../utils/download')
 
-import { Article } from '../entity/article'
-import { Week } from '../entity/week'
+import { Article } from '../entity/article';
+import { Week } from '../entity/week';
 import { Categories } from '../entity/categories';
+import { User } from '../entity/user'
 
 // const AfterDate = (date: Date) => Between(date, addWeeks(date, 1))
 const BeforeDate = (date: Date) => Between(subWeeks(date, 1), date);
@@ -16,12 +17,13 @@ export default class WeekController {
   public static async listWeeks(ctx: Context) {
     const weekRepository = getManager().getRepository(Week)
     const weeks = await weekRepository.find()
+    let domain = process.env.DOMAIN || `${ctx.request.protocol}://${ctx.request.headers.host}`;
     const weekList = weeks.map(item => {
       return {
         id: item.id,
         week: item.week,
         title: item.title,
-        image: `http://localhost:3000/images/${item.image}`,
+        image: `${domain}/images/${item.image}`,
         createdTime: format(item.createdTime, 'yyyy-MM-dd'),
       }
     }).sort((a, b) => b.week -a.week)
@@ -33,7 +35,10 @@ export default class WeekController {
     const weekRepository = getManager().getRepository(Week)
     const articleRepository = getManager().getRepository(Article)
     const categoriesRepository = getManager().getRepository(Categories);
+    const userRepository = getManager().getRepository(User)
     const existCount = await weekRepository.count()
+    const users = await userRepository.find()
+    const userEmails = users && users.map(it => it.email)
     const article = await articleRepository.find({
       where: {
         createdTime: BeforeDate(new Date()),
@@ -65,7 +70,8 @@ export default class WeekController {
           link,
           tagName: tagItem && tagItem['name']
         }
-      })
+      }),
+      emails: userEmails
     }
     await postMessage(postWeek)
     ctx.status = 201

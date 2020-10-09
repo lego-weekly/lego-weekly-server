@@ -12,31 +12,46 @@ interface Week {
   week: number;
   createdTime: string;
   articles: Article[];
+  emails: []
 }
 
 async function main(weekItem: Week) {
+  // 测试
+  // let transporter = nodemailer.createTransport({
+  //   host: 'smtp.ethereal.email',
+  //   port: 587,
+  //   auth: {
+  //     user: 'margarett12@ethereal.email',
+  //     pass: '5Ef8n12QKBSzX3K7FU',
+  //   },
+  // })
   let transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    secure: true,
     auth: {
-      user: 'margarett12@ethereal.email',
-      pass: '5Ef8n12QKBSzX3K7FU',
+      user: process.env.EMAIL_AUTH_USER,
+      pass: process.env.EMAIL_AUTH_PASS,
     },
   })
 
-  let message = {
-    from: '"Fe Weekly',
-    // to: '', // to 每个人的个人邮箱
-    subject: `每周精选丨Fe Weekly 前端小报第 ${weekItem.week}期 `,
-    html: genEmailHtml(weekItem),
-  }
-  transporter.sendMail(message, (err:any, info:any) => {
-    if (err) {
-      console.log('Error occurred. ' + err.message)
-      return process.exit(1)
+  const {emails} = weekItem
+  const postHtml = genEmailHtml(weekItem)
+  emails.map(email => {
+    const message = {
+      from: process.env.EMAIL_AUTH_USER,
+      to: email,
+      subject: `每周精选丨Fe Weekly 前端小报第 ${weekItem.week}期 `,
+      html: postHtml,
     }
-    console.log('Message sent: %s', info.messageId)
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+    transporter.sendMail(message, (err:any, info:any) => {
+      if (err) {
+        console.log('Error occurred. ' + err.message)
+        return process.exit(1)
+      }
+      console.log('Message sent: %s', info.messageId)
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+    })
   })
 }
 
