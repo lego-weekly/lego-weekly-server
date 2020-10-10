@@ -5,10 +5,10 @@ export class Categories {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({charset: 'utf8mb4'})
   name: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, charset: 'utf8mb4' })
   description: string;
 
   @Column({ nullable: true })

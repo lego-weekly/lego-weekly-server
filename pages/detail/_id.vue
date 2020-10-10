@@ -4,7 +4,13 @@
       <a-page-header :title="pageTitle.title" :sub-title="pageTitle.subTitle" />
       <a-list item-layout="horizontal" :data-source="articleList">
         <a-list-item slot="renderItem" slot-scope="item">
-          <a-list-item-meta :description="item.description">
+          <a-list-item-meta
+            :description="`${
+              item.description.length > 180
+                ? `${item.description.slice(0, 180)}...`
+                : item.description
+            }`"
+          >
             <a slot="title" :href="item.link" target="_black">{{
               item.title
             }}</a>

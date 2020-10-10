@@ -2,11 +2,11 @@
   <div>
     <a-layout class="layout-container">
       <a-layout-header>
-        <nuxt-link to="/" class="title">GT Weekly! 前端小报</nuxt-link>
+        <nuxt-link to="/" class="title">Fe Weekly! 前端小报</nuxt-link>
       </a-layout-header>
       <Nuxt />
       <a-layout-footer class="layout-footer">
-        <p>Copyright © 2018-2019 By Gt Team</p>
+        <p>Copyright © 2020-2021 By Gt FE Team</p>
       </a-layout-footer>
     </a-layout>
   </div>
