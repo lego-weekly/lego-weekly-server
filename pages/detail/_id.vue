@@ -6,8 +6,8 @@
         <a-list-item slot="renderItem" slot-scope="item">
           <a-list-item-meta
             :description="`${
-              item.description.length > 180
-                ? `${item.description.slice(0, 180)}...`
+              item.description.length > 170
+                ? `${item.description.slice(0, 170)}...`
                 : item.description
             }`"
           >
