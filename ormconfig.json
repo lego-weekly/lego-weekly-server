@@ -6,7 +6,8 @@
   "password": "pass",
   "database": "koa",
   "synchronize": true,
-  "entities": ["server/entity/*.ts"],
+  "entities": ["server/entity/*{.ts,.js}"],
+  "charset": "utf8mb4",
   "cli": {
     "entitiesDir": "server/entity"
   }
