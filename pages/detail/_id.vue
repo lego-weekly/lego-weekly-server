@@ -11,7 +11,7 @@
                 : item.description
             }`"
           >
-            <a slot="title" :href="item.link" target="_black">{{
+            <a slot="title" :href="item.link" target="_blank">{{
               item.title
             }}</a>
           </a-list-item-meta>
