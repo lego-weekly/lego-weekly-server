@@ -46,6 +46,8 @@ export default class WeekController {
     })
     const tagIds = article ? article.map(_ => _.tag) : []
     const tagList = await categoriesRepository.findByIds(tagIds);
+    const uploadIds = article ? article.map(_ => _.user) : []
+    const uploadList = await userRepository.findByIds(uploadIds);
     const newWeek = new Week()
     newWeek.title = `Gt Fe前端小报第${existCount + 1}期`
     newWeek.week = existCount + 1
@@ -63,12 +65,14 @@ export default class WeekController {
       title: newWeek.title,
       week: newWeek.week,
       createdTime: format(newWeek.createdTime, 'yyyy-MM-dd'),
-      articles: article.map(({tag, title, link}) => {
+      articles: article.map(({tag, title, link, user}) => {
         const tagItem = tagList.find(it => it.id === tag)
+        const uploadItem = uploadList.find(it => it.id === user)
         return {
           title,
           link,
-          tagName: tagItem && tagItem['name']
+          tagName: tagItem && tagItem['name'],
+          uploader: uploadItem && uploadItem['name']
         }
       }),
       emails: userEmails

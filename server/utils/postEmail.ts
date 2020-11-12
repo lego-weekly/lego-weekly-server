@@ -4,7 +4,8 @@ const nodemailer = require('nodemailer')
 interface Article {
   title: string;
   link: string;
-  tagName: string
+  tagName: string;
+  uploader: string;
 }
 
 interface Week {
@@ -17,23 +18,23 @@ interface Week {
 
 async function main(weekItem: Week) {
   // 测试
-  // let transporter = nodemailer.createTransport({
-  //   host: 'smtp.ethereal.email',
-  //   port: 587,
-  //   auth: {
-  //     user: 'margarett12@ethereal.email',
-  //     pass: '5Ef8n12QKBSzX3K7FU',
-  //   },
-  // })
   let transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: true,
+    host: 'smtp.ethereal.email',
+    port: 587,
     auth: {
-      user: process.env.EMAIL_AUTH_USER,
-      pass: process.env.EMAIL_AUTH_PASS,
+      user: 'margarett12@ethereal.email',
+      pass: '5Ef8n12QKBSzX3K7FU',
     },
   })
+  // let transporter = nodemailer.createTransport({
+  //   host: process.env.EMAIL_HOST,
+  //   port: process.env.EMAIL_PORT,
+  //   secure: true,
+  //   auth: {
+  //     user: process.env.EMAIL_AUTH_USER,
+  //     pass: process.env.EMAIL_AUTH_PASS,
+  //   },
+  // })
 
   const {emails} = weekItem
   const postHtml = genEmailHtml(weekItem)
@@ -147,11 +148,12 @@ function genEmailHtml (weekItem: Week) {
 
 function getArticleHtml(list: Article[]):string {
   return list.reduce((prev: string, cur: Article) => {
-    const {link, title, tagName} = cur
+    const {link, title, tagName, uploader} = cur
     let item = `<li><a href="${link}" class="article-title" rel="noopener" target="_blank">
     <strong>${title}</strong></a>
     <br>
     <p style="margin: 0;color: #666; font-size: 14px;">
+      <span style="color: #1890ff;">${uploader}&nbsp;</span>
       <span>${tagName}&nbsp;</span>
     </p></li>`
     return prev + item
